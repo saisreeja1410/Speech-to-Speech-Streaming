@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Speech Streaming</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg,rgb(17, 203, 153), #a4bade);
+            color:rgb(175, 113, 42);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            color:rgb(7, 0, 102);
+        }
+        label {
+            font-size: 1.2em;
+            color: #f25050;
+        }
+        input[type="file"], select {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid hsl(100, 59%, 76%);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #0e0202;
+            outline: none;
+            width: 100%;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: #6beab3;
+            background: #ff5722;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #e64a19;
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        video {
+            width: 100%;
+            max-width: 600px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+        .download-btn {
+            background: #4CAF50;
+            padding: 10px 20px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2em;
+            border-radius: 5px;
+        }
+        .download-btn:hover {
+            background: #45a049;
+        }
+        .loading {
+            display: none;
+            font-size: 1.5em;
+            color: #ff5722;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Speech to Speech Streaming</h1>
+
+        <!-- Form to upload video and select target language -->
+        <form method="POST" enctype="multipart/form-data" onsubmit="showLoading()">
+            <label for="video">Upload Video:</label><br>
+            <input type="file" name="video" accept="video/mp4" required><br><br>
+            <label for="target_language">Select Target Language:</label><br>
+            <select name="target_language" required>
+                <option value="hi">Hindi</option>
+                <option value="te">Telugu</option>
+                <option value="ta">Tamil</option>
+                <option value="bn">Bengali</option>
+                <option value="ml">Malayalam</option>
+                <option value="mr">Marathi</option>
+                <option value="kn">Kannada</option>
+                <option value="gu">Gujarati</option>
+                <option value="pa">Punjabi</option>
+                <option value="ur">Urdu</option>
+                <option value="en">English</option>
+                <option value="fr">French</option>
+                <option value="zh">Chinese</option>
+                <option value="jp">Japanese</option>
+            </select><br><br>
+            <button type="submit">Process Video</button>
+        </form>
+
+        <!-- Loading symbol -->
+        <div class="loading" id="loading">Processing... ⏳</div>
+
+        <!-- Displaying the result if video is processed -->
+        {% if video_path and translated_video_path %}
+        <div class="result">
+            <h2>Processing Complete!</h2>
+            <p>Original Video:</p>
+            <video controls>
+                <source src="{{ video_path }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>Translated Video:</p>
+            <video controls>
+                <source src="{{ translated_video_path }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <br><br>
+            <a class="download-btn" href="{{ translated_video_path }}" download>Download Translated Video</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <script>
+        function showLoading() {
+            document.getElementById('loading').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
